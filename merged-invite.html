@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>دعوة مناقشة مشروع التخرج</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C97A;
+      --gold-dark: #9A7A2A;
+      --navy: #0A1628;
+      --navy-mid: #112240;
+      --navy-light: #1E3A5F;
+      --white: #FFFFFF;
+      --cream: #FDF8EE;
+      --green-bis: #2A7A4B;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ===== STARS BACKGROUND ===== */
+    #stars-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ===== CONFETTI ===== */
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy-mid) 50%, #0D2137 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .gold-line {
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 12px auto;
+    }
+
+    .badge-program {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 50px;
+      padding: 8px 24px;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      color: var(--white);
+    }
+
+    .hero-title span {
+      color: var(--gold);
+      display: block;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.7);
+      margin-top: 8px;
+    }
+
+    .logos-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .logo-circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(201,168,76,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 0.75rem;
+      color: var(--gold);
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .logo-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(201,168,76,0.3);
+    }
+
+    /* ===== EVENT CARD ===== */
+    .event-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 20px;
+      padding: 36px 40px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle at top right, rgba(201,168,76,0.08), transparent 60%);
+    }
+
+    /* ===== COUNTDOWN ===== */
+    .countdown-section {
+      background: linear-gradient(135deg, var(--navy-mid), #0D2137);
+      padding: 60px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    .countdown-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .countdown-label {
+      font-size: 0.9rem;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-box {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 16px;
+      padding: 20px 28px;
+      min-width: 100px;
+      position: relative;
+    }
+
+    .countdown-box::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 40px; height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+
+    .countdown-num {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+    }
+
+    .countdown-unit {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 8px;
+      letter-spacing: 1px;
+    }
+
+    /* ===== INFO SECTION ===== */
+    .info-section {
+      padding: 70px 20px;
+      position: relative;
+    }
+
+    .section-eyebrow {
+      font-size: 0.8rem;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 40px;
+    }
+
+    .detail-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      transition: all 0.3s ease;
+      height: 100%;
+    }
+
+    .detail-card:hover {
+      background: rgba(201,168,76,0.08);
+      border-color: rgba(201,168,76,0.5);
+      transform: translateY(-4px);
+    }
+
+    .detail-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .detail-label {
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .detail-value {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .detail-sub {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+
+    /* ===== SUPERVISORS SECTION ===== */
+    .supervisors-section {
+      background: linear-gradient(180deg, transparent, rgba(201,168,76,0.04), transparent);
+      padding: 60px 20px;
+    }
+
+    .supervisor-pill {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 50px;
+      padding: 12px 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px;
+      transition: all 0.3s;
+    }
+
+    .supervisor-pill:hover {
+      background: rgba(201,168,76,0.1);
+      border-color: var(--gold);
+    }
+
+    .sup-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ===== MUSIC PLAYER ===== */
+    .music-section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .music-player {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 500px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .music-player::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(201,168,76,0.1), transparent 60%);
+    }
+
+    .vinyl {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(#1a1a2e, #2d2d5e, #1a1a2e, #C9A84C 45deg, #1a1a2e 90deg, #2d2d5e, #1a1a2e);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 30px rgba(201,168,76,0.3);
+      transition: box-shadow 0.3s;
+    }
+
+    .vinyl.spinning {
+      animation: spin 4s linear infinite;
+      box-shadow: 0 0 50px rgba(201,168,76,0.5);
+    }
+
+    .vinyl-center {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--navy);
+      border: 3px solid var(--gold);
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .song-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .song-artist {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 24px;
+    }
+
+    .progress-bar-wrap {
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      height: 5px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 10px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+      width: 0%;
+      transition: width 0.1s;
+      pointer-events: none;
+    }
+
+    .time-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 20px;
+    }
+
+    .music-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .ctrl-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.6);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 8px;
+    }
+
+    .ctrl-btn:hover { color: var(--gold); }
+
+    .play-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border: none;
+      color: var(--navy);
+      font-size: 1.4rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+    }
+
+    .play-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 30px rgba(201,168,76,0.6);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: rgba(0,0,0,0.3);
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .footer-text {
+      color: rgba(255,255,255,0.3);
+      font-size: 0.85rem;
+    }
+
+    .footer-text span {
+      color: var(--gold);
+    }
+
+    /* ===== CONFETTI BUTTON ===== */
+    .celebrate-btn {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border: none;
+      color: var(--navy);
+      font-weight: 700;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: all 0.3s;
+      font-family: 'Cairo', sans-serif;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+    }
+
+    .celebrate-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(201,168,76,0.5);
+    }
+
+    /* ===== DIVIDER ===== */
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+      margin: 0;
+    }
+
+    /* ===== PULSE RING ===== */
+    .pulse-ring {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #4CAF50;
+      font-size: 0.85rem;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4CAF50;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 576px) {
+      .hero {
+        padding: 20px 10px !important;
+      }
+      .hero-title {
+        font-size: 2.1rem !important;
+      }
+      .hero-subtitle {
+        font-size: 0.9rem !important;
+      }
+      .badge-program {
+        padding: 6px 16px !important;
+        font-size: 0.75rem !important;
+      }
+      .logos-row {
+        gap: 15px !important;
+        margin-bottom: 20px !important;
+      }
+      .logo-circle {
+        width: 60px !important;
+        height: 60px !important;
+        font-size: 0.65rem !important;
+      }
+      .logo-divider {
+        height: 25px !important;
+      }
+      .event-card {
+        padding: 20px 16px !important;
+      }
+      /* Stack info elements inside event card for perfect mobile visibility */
+      .event-card .col-6 {
+        width: 100% !important;
+        text-align: center !important;
+        margin-bottom: 12px;
+      }
+      .event-card .text-end {
+        text-align: center !important;
+      }
+      .countdown-grid {
+        gap: 8px !important;
+      }
+      .countdown-box {
+        padding: 10px 14px !important;
+        min-width: 75px !important;
+      }
+      .countdown-num {
+        font-size: 2.1rem !important;
+      }
+      .music-bar {
+        padding: 10px 18px !important;
+        gap: 8px !important;
+        max-width: 92% !important;
+      }
+      .music-text {
+        font-size: 12px !important;
+      }
+      .music-waves {
+        height: 15px !important;
+      }
+      .detail-card {
+        padding: 16px 10px !important;
+      }
+      .detail-value {
+        font-size: 1.1rem !important;
+      }
+      .detail-icon {
+        font-size: 2rem !important;
+      }
+    }
+
+    /* Envelope Scaling for small mobile screens */
+    @media (max-width: 400px) {
+      .env-wrap {
+        transform: scale(0.85);
+      }
+      .env-hint {
+        font-size: 15px !important;
+        margin-top: 20px !important;
+      }
+      @keyframes floatEnv {
+        0%, 100% { transform: scale(0.85) translateY(0); }
+        50% { transform: scale(0.85) translateY(-15px); }
+      }
+    }
+
+    @media (max-width: 340px) {
+      .env-wrap {
+        transform: scale(0.72);
+      }
+      @keyframes floatEnv {
+        0%, 100% { transform: scale(0.72) translateY(0); }
+        50% { transform: scale(0.72) translateY(-15px); }
+      }
+    }
+
+    /* ===== ENVELOPE OVERLAY ===== */
+    #envelope-overlay {
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse at center, #1a0a3e 0%, #000 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 9999; cursor: pointer;
+      transition: opacity 0.8s ease;
+    }
+    #envelope-overlay.hide { opacity: 0; pointer-events: none; }
+    .env-wrap {
+      position: relative; width: 340px; height: 240px;
+      animation: floatEnv 3s ease-in-out infinite;
+    }
+    @keyframes floatEnv { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+    .env-body {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, #f5c842, #c9972b);
+      border-radius: 8px; position: relative; overflow: visible;
+      box-shadow: 0 0 60px rgba(245,200,66,0.5);
+    }
+    .env-flap {
+      position: absolute; top: 0; left: 0; width: 100%; height: 120px;
+      background: linear-gradient(135deg, #e6b800, #c9972b);
+      clip-path: polygon(0 0, 50% 65%, 100% 0);
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(.68,-0.55,.27,1.55); z-index: 2;
+    }
+    .env-wrap.open .env-flap { transform: rotateX(180deg); }
+    .env-left {
+      position: absolute; bottom: 0; left: 0;
+      border-bottom: 120px solid #d4a820;
+      border-right: 170px solid transparent;
+    }
+    .env-right {
+      position: absolute; bottom: 0; right: 0;
+      border-bottom: 120px solid #c9972b;
+      border-left: 170px solid transparent;
+    }
+    .env-letter {
+      position: absolute; top: 20px; left: 20px; right: 20px;
+      background: white; border-radius: 4px; padding: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: #7c3aed; font-weight: 900; height: 80px;
+      transition: transform 0.8s ease 0.3s;
+    }
+    .env-wrap.open .env-letter { transform: translateY(-60px); }
+    .env-hint {
+      margin-top: 30px; color: var(--gold);
+      font-size: 18px; font-weight: 700;
+      animation: pulseHint 1.5s infinite;
+      text-shadow: 0 0 20px rgba(201,168,76,0.8);
+    }
+    @keyframes pulseHint { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .env-stars { position: absolute; font-size: 28px; }
+    .es1 { top:-30px; left:-30px; animation: spin 4s linear infinite; }
+    .es2 { top:-20px; right:-20px; animation: spin 3s linear infinite reverse; }
+    .es3 { bottom:-20px; left:50%; animation: spin 5s linear infinite; }
+
+    /* ===== MUSIC BAR ===== */
+    .music-bar {
+      display: flex; align-items: center; justify-content: center;
+      gap: 14px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 50px; padding: 12px 28px;
+      margin: 20px auto; max-width: 480px;
+    }
+    .music-icon { font-size: 22px; animation: spin 4s linear infinite; }
+    .music-text { color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 700; }
+    .music-waves { display: flex; align-items: center; gap: 3px; height: 20px; }
+    .wave-bar { width: 4px; background: var(--gold); border-radius: 2px; animation: waveAnim 0.8s ease-in-out infinite; }
+    .music-bar.paused .wave-bar { animation-play-state: paused; }
+    .wave-bar:nth-child(1){animation-delay:0s} .wave-bar:nth-child(2){animation-delay:0.1s}
+    .wave-bar:nth-child(3){animation-delay:0.2s} .wave-bar:nth-child(4){animation-delay:0.3s}
+    .wave-bar:nth-child(5){animation-delay:0.4s}
+    @keyframes waveAnim { 0%,100%{height:6px} 50%{height:18px} }
+
+    /* ===== PARTICLES ===== */
+    .particles-container { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+    .particle { position: absolute; border-radius: 50%; animation: floatParticle linear infinite; opacity: 0.6; }
+    @keyframes floatParticle {
+      0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+      10%{opacity:0.6} 90%{opacity:0.6}
+      100%{transform:translateY(-100px) rotate(720deg);opacity:0}
+    }
+    /* Glow rings */
+    .glow-ring { position:fixed; border-radius:50%; border:1px solid rgba(201,168,76,0.1); pointer-events:none; z-index:0; animation:ringPulse 6s ease-in-out infinite; }
+    @keyframes ringPulse { 0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.3} 50%{transform:translate(-50%,-50%) scale(1.1);opacity:0.1} }
+
+    /* ===== MAIN CONTENT HIDE BEFORE OPEN ===== */
+    .page-wrapper { opacity: 0; transition: opacity 1s ease; }
+    .page-wrapper.show { opacity: 1; }
+
+
+    /* ===== INTERACTION & HOVER EFFECTS ===== */
+    .logo-circle, .event-card, .countdown-box, .detail-card, .music-bar, .supervisor-pill, .celebrate-btn {
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    }
+    
+    .logo-circle:hover {
+      transform: scale(1.15) rotate(8deg);
+      border-color: var(--gold-light) !important;
+      box-shadow: 0 0 20px rgba(201,168,76,0.6);
+      background: rgba(201,168,76,0.15) !important;
+      cursor: pointer;
+    }
+
+    .event-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(201,168,76,0.15), 0 0 30px rgba(255,255,255,0.05);
+      border-color: rgba(201,168,76,0.6) !important;
+    }
+
+    .countdown-box:hover {
+      transform: translateY(-6px) scale(1.05);
+      background: rgba(201,168,76,0.1) !important;
+      box-shadow: 0 12px 30px rgba(201,168,76,0.4);
+      border-color: var(--gold-light) !important;
+      cursor: pointer;
+    }
+
+    .detail-card:hover {
+      transform: translateY(-8px) scale(1.03);
+      background: rgba(201,168,76,0.12) !important;
+      border-color: var(--gold) !important;
+      box-shadow: 0 15px 35px rgba(201,168,76,0.25);
+    }
+
+    .supervisor-pill:hover {
+      transform: translateY(-3px) scale(1.05);
+      background: rgba(201,168,76,0.15) !important;
+      border-color: var(--gold-light) !important;
+      box-shadow: 0 5px 15px rgba(201,168,76,0.2);
+    }
+
+    .music-bar:hover {
+      transform: translateY(-3px) scale(1.03);
+      background: rgba(201,168,76,0.15) !important;
+      box-shadow: 0 10px 30px rgba(201,168,76,0.25);
+      border-color: var(--gold-light) !important;
+      cursor: pointer;
+    }
+
+    .celebrate-btn:hover {
+      transform: translateY(-4px) scale(1.05) !important;
+      box-shadow: 0 12px 35px rgba(201,168,76,0.6) !important;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Stars & Confetti already in page -->
+<!-- Particles -->
+<div class="particles-container" id="particles"></div>
+<!-- Glow rings -->
+<div class="glow-ring" style="width:600px;height:600px;top:50%;left:50%;"></div>
+<div class="glow-ring" style="width:900px;height:900px;top:50%;left:50%;animation-delay:2s;"></div>
+
+<!-- ===== ENVELOPE OVERLAY ===== -->
+<div id="envelope-overlay" onclick="openEnvelope()">
+  <div class="env-wrap" id="envWrap">
+    <div class="env-body">
+      <div class="env-flap"></div>
+      <div class="env-left"></div>
+      <div class="env-right"></div>
+      <div class="env-letter">🎓 دعوة مناقشة</div>
+    </div>
+    <span class="env-stars es1">✨</span>
+    <span class="env-stars es2">⭐</span>
+    <span class="env-stars es3">✨</span>
+  </div>
+  <p class="env-hint">👆 اضغط لفتح الدعوة</p>
+</div>
+
+<!-- Hidden audio -->
+<audio id="bgMusic" loop>
+  <source src="song.mp3" type="audio/mpeg"/>
+  <source src="https://audio.nghmat.com/d9471/Abd_Al7alem_Hafez/Nghmat.Com_Abd.AlHalem.Hafez_Wahyat.Qalby.mp3" type="audio/mpeg"/>
+</audio>
+
+
+<canvas id="stars-canvas"></canvas>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="page-wrapper">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container" style="max-width:750px">
+      <div class="text-center">
+
+        <!-- Logos -->
+        <div class="logos-row mb-4">
+          <div class="logo-circle">جامعة<br>أسيوط</div>
+          <div class="logo-divider"></div>
+          <div class="logo-circle" style="font-size:1.1rem; color:#2A7A4B;">BIS</div>
+          <div class="logo-divider"></div>
+          <div class="logo-circle">كلية<br>التجارة</div>
+        </div>
+
+        <div class="badge-program">
+          ✦ برنامج نظم معلومات الأعمال ✦
+        </div>
+
+        <div class="gold-line"></div>
+
+        <h1 class="hero-title mt-3">
+          مناقشة مشروع التخرج
+          <span>الدفعة الثالثة</span>
+        </h1>
+        <p class="hero-subtitle mt-2">طلاب المستوى الرابع — العام الدراسي 2025 / 2026</p>
+
+        <div class="gold-line mt-3 mb-4"></div>
+
+        <!-- Event Card -->
+        <div class="event-card mt-4 text-end">
+          <div class="row g-4 align-items-center">
+            <div class="col-12 text-center mb-3">
+              <div style="display: inline-block; position: relative;">
+                <img src="logo.jpg" alt="ADATK Logo" style="width: 150px; border-radius: 15px; border: 2.5px solid var(--gold); box-shadow: 0 0 25px rgba(201,168,76,0.5); background: #000; padding: 8px; transition: all 0.3s ease;" onmouseover="this.style.transform='scale(1.08) rotate(3deg)'; this.style.borderColor='var(--gold-light)';" onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.borderColor='var(--gold)';" />
+              </div>
+            </div>
+
+            <div class="col-12 text-center my-3">
+              <div style="background: rgba(201,168,76,0.06); border-right: 4px solid var(--gold); border-left: 4px solid var(--gold); padding: 18px 20px; border-radius: 12px; font-family: 'Tajawal', sans-serif; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(201,168,76,0.1)'; this.style.transform='scale(1.02)';" onmouseout="this.style.background='rgba(201,168,76,0.06)'; this.style.transform='scale(1)';">
+                <p style="font-size: 1.2rem; font-weight: 800; color: var(--gold-light); margin-bottom: 8px; text-shadow: 0 0 10px rgba(201,168,76,0.3);">✨ دعوة عامة للجميع ✨</p>
+                <p style="font-size: 0.95rem; line-height: 1.7; color: rgba(255, 255, 255, 0.9); margin-bottom: 0; text-align: center;">
+                  يسعدنا ويشرفنا دعوتكم لحضور مناقشة مشروع تخرجنا. حضوركم يكلل مسيرتنا بالبهجة والسرور، ويسعدنا تواجدكم جميعاً لمشاركتنا هذه اللحظة الاستثنائية والمميزة التي طال انتظارها. 
+                  <br>
+                  <strong style="color: var(--gold-light); font-size: 1rem; display: block; margin-top: 5px;">الدعوة عامة ومفتوحة لجميع الزملاء، الأصدقاء، والأحبة! 🎓❤️</strong>
+                </p>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <p style="color:var(--gold); font-size:0.8rem; letter-spacing:2px; margin-bottom:8px;">تفاصيل المناقشة</p>
+              <h2 style="font-family:'Tajawal',sans-serif; font-size:1.6rem; font-weight:800;">
+                🎓 مشروع <span style="color:var(--gold);">ADATK</span>
+              </h2>
+              
+              <div style="margin: 10px 0 0; font-size:0.8rem; color:rgba(255,255,255,0.4); letter-spacing:1px;">👤 الطالب</div>
+              <div style="font-weight:800; font-size:1.1rem; color:var(--gold-light);">كريم علي عبد الرحمن</div>
+
+              <hr style="border-color:rgba(201,168,76,0.2); margin:16px 0;">
+            </div>
+            <div class="col-6">
+              <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); letter-spacing:1px; margin-bottom:4px;">📅 التاريخ</div>
+              <div style="font-weight:700; font-size:1.1rem;">الخميس، 9 يوليو 2026</div>
+            </div>
+            <div class="col-6">
+              <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); letter-spacing:1px; margin-bottom:4px;">⏰ الموعد</div>
+              <div style="font-weight:700; font-size:1.1rem; color:var(--gold);">10:00 – 11:00 ص</div>
+            </div>
+            <div class="col-6">
+              <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); letter-spacing:1px; margin-bottom:4px;">📍 المكان</div>
+              <div style="font-weight:700;">القاعة (1)</div>
+            </div>
+            <div class="col-6">
+              <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); letter-spacing:1px; margin-bottom:4px;">👤 قائد الفريق</div>
+              <div style="font-weight:700;">حبيبة محمد خلف محمد</div>
+            </div>
+            <div class="col-12">
+              <hr style="border-color:rgba(201,168,76,0.2);">
+              <div style="font-size:0.75rem; color:rgba(255,255,255,0.4); letter-spacing:1px; margin-bottom:8px;">🎓 المشرفون</div>
+              <div>
+                <span style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); border-radius:20px; padding:6px 14px; font-size:0.9rem; display:inline-block; margin:4px;">د. علي حسين</span>
+                <span style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); border-radius:20px; padding:6px 14px; font-size:0.9rem; display:inline-block; margin:4px;">أ.م.د. مصطفى قايد</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="celebrate-btn mt-4" onclick="startConfetti()">
+          🎉 احتفل معنا!
+        </button>
+
+        <div class="mt-4">
+          <div class="pulse-ring justify-content-center">
+            <div class="pulse-dot"></div>
+            المناقشة قادمة قريباً
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== COUNTDOWN ===== -->
+  <section class="countdown-section">
+    <div class="container">
+      <p class="countdown-label">⏳ العد التنازلي للمناقشة</p>
+      <h3 style="font-family:'Tajawal',sans-serif; font-size:1.8rem; font-weight:800; margin-bottom:30px;">
+        الخميس 9 يوليو 2026 — الساعة 10:00 صباحاً
+      </h3>
+      <div class="countdown-grid" id="countdown">
+        <div class="countdown-box">
+          <span class="countdown-num" id="cd-days">00</span>
+          <div class="countdown-unit">يوم</div>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-num" id="cd-hours">00</span>
+          <div class="countdown-unit">ساعة</div>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-num" id="cd-mins">00</span>
+          <div class="countdown-unit">دقيقة</div>
+        </div>
+        <div class="countdown-box">
+          <span class="countdown-num" id="cd-secs">00</span>
+          <div class="countdown-unit">ثانية</div>
+        </div>
+      </div>
+      <p id="countdown-done" style="display:none; color:var(--gold); font-size:1.3rem; font-weight:700; margin-top:20px;">
+        🎓 لحظة المناقشة — حظاً موفقاً!
+      </p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== INFO CARDS ===== -->
+  <section class="info-section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <p class="section-eyebrow">تفاصيل الحدث</p>
+        <h2 class="section-title">معرض ومناقشات مشروعات التخرج</h2>
+      </div>
+      <div class="row g-4 justify-content-center">
+        <div class="col-6 col-md-3">
+          <div class="detail-card">
+            <span class="detail-icon">📅</span>
+            <div class="detail-label">التاريخ</div>
+            <div class="detail-value">9 يوليو</div>
+            <div class="detail-sub">الخميس 2026</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="detail-card">
+            <span class="detail-icon">⏰</span>
+            <div class="detail-label">وقت المناقشة</div>
+            <div class="detail-value" style="color:var(--gold);">10:00 – 11:00</div>
+            <div class="detail-sub">صباحاً</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="detail-card">
+            <span class="detail-icon">🏛️</span>
+            <div class="detail-label">القاعة</div>
+            <div class="detail-value">قاعة (1)</div>
+            <div class="detail-sub">المبنى الإداري</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="detail-card">
+            <span class="detail-icon">🎓</span>
+            <div class="detail-label">المشروع</div>
+            <div class="detail-value">ADATK</div>
+            <div class="detail-sub">الدفعة الثالثة</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exhibition info -->
+      <div class="row g-4 mt-2 justify-content-center">
+        <div class="col-md-6">
+          <div class="detail-card" style="text-align:right;">
+            <div style="font-size:0.75rem; color:var(--gold); letter-spacing:2px; margin-bottom:12px;">📢 معرض المشروعات</div>
+            <div style="font-size:1.1rem; font-weight:700; margin-bottom:6px;">السبت 4 يوليو 2026</div>
+            <div style="color:rgba(255,255,255,0.5); font-size:0.9rem;">9:00 ص – 10:30 ص</div>
+            <div style="color:rgba(255,255,255,0.5); font-size:0.9rem;">ساحة المبنى الإداري — جامعة أسيوط</div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="detail-card" style="text-align:right;">
+            <div style="font-size:0.75rem; color:var(--gold); letter-spacing:2px; margin-bottom:12px;">🎤 الافتتاح الرسمي</div>
+            <div style="font-size:1.1rem; font-weight:700; margin-bottom:6px;">السبت 4 يوليو 2026</div>
+            <div style="color:rgba(255,255,255,0.5); font-size:0.9rem;">الساعة 11:00 ص</div>
+            <div style="color:rgba(255,255,255,0.5); font-size:0.9rem;">القاعة الثمانية — المبنى الإداري</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== MUSIC BAR ===== -->
+  <section style="padding:40px 20px; text-align:center;">
+    <div class="music-bar">
+      <span class="music-icon">🎵</span>
+      <div class="music-waves">
+        <div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+      <span class="music-text">أغنية التخرج تعزف الآن 🎓</span>
+      <div class="music-waves">
+        <div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+      <span class="music-icon">🎵</span>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="gold-line mb-3"></div>
+    <p class="footer-text">
+      <span>جامعة أسيوط</span> — كلية التجارة —
+      <span>برنامج نظم معلومات الأعمال (BIS)</span>
+    </p>
+    <p class="footer-text mt-1" style="font-size:0.75rem;">
+      الدفعة الثالثة · العام الدراسي 2025/2026
+    </p>
+    <p style="color:var(--gold); font-size:1.2rem; margin-top:16px;">✨ بالتوفيق لجميع المتخرجين ✨</p>
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script>
+  // ===== STARS =====
+  const starsCanvas = document.getElementById('stars-canvas');
+  const sCtx = starsCanvas.getContext('2d');
+  let stars = [];
+
+  function initStars() {
+    starsCanvas.width = window.innerWidth;
+    starsCanvas.height = window.innerHeight;
+    stars = [];
+    for (let i = 0; i < 120; i++) {
+      stars.push({
+        x: Math.random() * starsCanvas.width,
+        y: Math.random() * starsCanvas.height,
+        r: Math.random() * 1.5 + 0.3,
+        o: Math.random(),
+        speed: Math.random() * 0.008 + 0.003,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+  }
+
+  function animateStars(t) {
+    sCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+    stars.forEach(s => {
+      s.o = 0.3 + 0.5 * Math.sin(t * s.speed + s.phase);
+      sCtx.beginPath();
+      sCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      sCtx.fillStyle = `rgba(201,168,76,${s.o})`;
+      sCtx.fill();
+    });
+    requestAnimationFrame(animateStars);
+  }
+
+  window.addEventListener('resize', initStars);
+  initStars();
+  requestAnimationFrame(animateStars);
+
+  // ===== CONFETTI (Continuous) =====
+  const confCanvas = document.getElementById('confetti-canvas');
+  const cCtx = confCanvas.getContext('2d');
+  let particles = [];
+  let confettiRunning = false;
+  const colors = ['#C9A84C','#E8C97A','#FFFFFF','#2A7A4B','#4FC3F7','#FFD700','#FF8C00'];
+
+  function spawnConfettiPieces(count) {
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * confCanvas.width,
+        y: Math.random() * -60 - 20,
+        vx: (Math.random() - 0.5) * 3,
+        vy: Math.random() * 3 + 2,
+        r: Math.random() * 8 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.1,
+        shape: Math.random() > 0.5 ? 'rect' : 'circle'
+      });
+    }
+  }
+
+  function startConfetti() {
+    confCanvas.width = window.innerWidth;
+    confCanvas.height = window.innerHeight;
+    if (particles.length === 0) {
+      spawnConfettiPieces(120);
+    }
+    if (!confettiRunning) {
+      confettiRunning = true;
+      animateConfetti();
+    }
+  }
+
+  function animateConfetti() {
+    cCtx.clearRect(0, 0, confCanvas.width, confCanvas.height);
+    
+    // Filter out particles that fell off screen
+    particles = particles.filter(p => p.y < confCanvas.height + 30);
+    
+    // Spawn more if running and below limit to ensure it runs continuously
+    if (confettiRunning && particles.length < 150) {
+      spawnConfettiPieces(2);
+    }
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.03; // Light gravity
+      p.angle += p.spin;
+      cCtx.save();
+      cCtx.translate(p.x, p.y);
+      cCtx.rotate(p.angle);
+      cCtx.fillStyle = p.color;
+      cCtx.globalAlpha = 0.85;
+      if (p.shape === 'rect') {
+        cCtx.fillRect(-p.r/2, -p.r/4, p.r, p.r/2);
+      } else {
+        cCtx.beginPath();
+        cCtx.arc(0, 0, p.r/2, 0, Math.PI*2);
+        cCtx.fill();
+      }
+      cCtx.restore();
+    });
+
+    if (confettiRunning || particles.length > 0) {
+      requestAnimationFrame(animateConfetti);
+    }
+  }
+
+  // ===== COUNTDOWN =====
+  function updateCountdown() {
+    const target = new Date('2026-07-09T10:00:00');
+    const now = new Date();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      document.getElementById('countdown').style.display = 'none';
+      document.getElementById('countdown-done').style.display = 'block';
+      return;
+    }
+
+    const days = Math.floor(diff / (1000*60*60*24));
+    const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const secs = Math.floor((diff % (1000*60)) / 1000);
+
+    document.getElementById('cd-days').textContent = String(days).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ===== AUDIO PLAYER CONTROLS (Interactive Music Bar) =====
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBar = document.querySelector('.music-bar');
+
+  if (musicBar && bgMusic) {
+    musicBar.style.cursor = 'pointer';
+    musicBar.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play().catch(()=>{});
+        musicBar.classList.remove('paused');
+        document.querySelector('.music-text').textContent = "أغنية التخرج تعزف الآن 🎓";
+      } else {
+        bgMusic.pause();
+        musicBar.classList.add('paused');
+        document.querySelector('.music-text').textContent = "اضغط لتشغيل الأغنية 🎓";
+      }
+    });
+
+    // Sync when audio starts/stops
+    bgMusic.addEventListener('play', () => {
+      musicBar.classList.remove('paused');
+      document.querySelector('.music-text').textContent = "أغنية التخرج تعزف الآن 🎓";
+    });
+    bgMusic.addEventListener('pause', () => {
+      musicBar.classList.add('paused');
+      document.querySelector('.music-text').textContent = "اضغط لتشغيل الأغنية 🎓";
+    });
+  }
+
+  // ===== ENVELOPE OPEN =====
+  function openEnvelope() {
+    const wrap = document.getElementById('envWrap');
+    const overlay = document.getElementById('envelope-overlay');
+    const main = document.querySelector('.page-wrapper');
+    wrap.classList.add('open');
+    setTimeout(() => {
+      overlay.classList.add('hide');
+      main.classList.add('show');
+      const audio = document.getElementById('bgMusic');
+      audio.volume = 0.4;
+      audio.currentTime = 90; // البدء من الثانية 90 (دقيقة ونصف)
+      audio.play().catch(()=>{});
+      startConfetti(); // Start the continuous celebration confetti automatically!
+    }, 1000);
+  }
+
+  // ===== FLOATING PARTICLES =====
+  (function(){
+    const container = document.getElementById('particles');
+    const colors = ['rgba(201,168,76,0.4)','rgba(255,255,255,0.2)','rgba(42,122,75,0.3)'];
+    for(let i=0;i<20;i++){
+      const el = document.createElement('div');
+      el.className = 'particle';
+      const size = Math.random()*8+4;
+      el.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${Math.random()*12+8}s;animation-delay:${Math.random()*10}s;`;
+      container.appendChild(el);
+    }
+  })();
+
+</script>
+</body>
+</html>
